@@ -2,8 +2,9 @@ package com.github.illiaderhun.controller;
 
 import com.github.illiaderhun.assembler.EmployeeResourceAssembler;
 import com.github.illiaderhun.entity.Employee;
-import com.github.illiaderhun.exception.EmpoyeeNotFoundException;
+import com.github.illiaderhun.exception.EmployeeNotFoundException;
 import com.github.illiaderhun.repository.EmployeeRepository;
+import io.swagger.annotations.Api;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
+@Api(value = "Employee controller", description = "The simple employee controller")
 public class EmployeeController {
 
     private final EmployeeRepository repository;
@@ -63,7 +65,7 @@ public class EmployeeController {
 
     @GetMapping("/employees/{id}")
     public Resource<Employee> findById(@PathVariable Long id) {
-        Employee theEmployee = repository.findById(id).orElseThrow(() -> new EmpoyeeNotFoundException(id));
+        Employee theEmployee = repository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
 
         return assembler.toResource(theEmployee);
         /*return new Resource<>(theEmployee,
